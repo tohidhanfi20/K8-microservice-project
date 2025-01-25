@@ -49,9 +49,8 @@ spec:
             periodSeconds: 10
       imagePullSecrets:
       - name: docker-pwd
-
-# user micro-service
---- 
+---
+# User Service
 apiVersion: v1
 kind: Service
 metadata: 
@@ -59,7 +58,6 @@ metadata:
     app: user
   name: user
 spec: 
-  clusterIP: None
   ports:
     - name: user-service
       port: 8082
@@ -67,6 +65,7 @@ spec:
   selector: 
     app: user
 ---
+# User Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -88,12 +87,29 @@ spec:
           image: tohidazure/microservices:user
           ports:
             - containerPort: 8082
-              name: user
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mariadb-service:3306/microservices_project?createDatabaseIfNotExist=true
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: 1234
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8082
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8082
+            initialDelaySeconds: 5
+            periodSeconds: 10
       imagePullSecrets:
       - name: docker-pwd
-
-# auth micro-service
---- 
+---
+# Auth Service
 apiVersion: v1
 kind: Service
 metadata: 
@@ -101,7 +117,6 @@ metadata:
     app: auth
   name: auth
 spec: 
-  clusterIP: None
   ports:
     - name: auth-service
       port: 8083
@@ -109,6 +124,7 @@ spec:
   selector: 
     app: auth
 ---
+# Auth Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -130,10 +146,27 @@ spec:
           image: tohidazure/microservices:auth
           ports:
             - containerPort: 8083
-              name: auth
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mariadb-service:3306/microservices_project?createDatabaseIfNotExist=true
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: 1234
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8083
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8083
+            initialDelaySeconds: 5
+            periodSeconds: 10
       imagePullSecrets:
       - name: docker-pwd
-
 --- 
 # MariaDB Service
 apiVersion: v1
