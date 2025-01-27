@@ -10,7 +10,7 @@ spec:
   tls:
   - hosts:
       - "welcome.tohidcloud.store"
-    secretName: nginx-tls-default
+    secretName: nginxtls-default
   rules:
   - host: welcome.tohidcloud.store
     http:
@@ -37,7 +37,7 @@ spec:
   tls:
   - hosts:
       - "user.tohidcloud.store"
-    secretName: nginx-tls-default
+    secretName: nginxtls-default
   rules:
   - host: user.tohidcloud.store
     http:
@@ -64,7 +64,7 @@ spec:
   tls:
   - hosts:
       - "auth.tohidcloud.store"
-    secretName: nginx-tls-default
+    secretName: nginxtls-default
   rules:
   - host: auth.tohidcloud.store
     http:
