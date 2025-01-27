@@ -1,1 +1,59 @@
-
+# Welcome Service
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: welcome
+  name: welcome
+spec:
+  ports:
+    - name: welcome-service
+      port: 8081
+      targetPort: 8081
+  selector:
+    app: welcome
+---
+# User Service
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: user
+  name: user
+spec:
+  ports:
+    - name: user-service
+      port: 8082
+      targetPort: 8082
+  selector:
+    app: user
+---
+# Auth Service
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: auth
+  name: auth
+spec:
+  ports:
+    - name: auth-service
+      port: 8083
+      targetPort: 8083
+  selector:
+    app: auth
+---
+# MariaDB Service
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mariadb
+  name: mariadb-service
+spec:
+  ports:
+    - name: mariadb
+      port: 3306
+      targetPort: 3306
+  selector:
+    app: mariadb
