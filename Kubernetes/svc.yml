@@ -1,0 +1,43 @@
+# Welcome Service
+apiVersion: v1
+kind: Pod
+metadata:
+  name: welcome
+  labels:
+    name: welcome
+spec:
+  containers:
+    - name: welcome
+      image: tohidazure/microservices:welcome
+      ports:
+        - containerPort: 8081
+  imagePullSecrets:
+    - name: docker-pwd
+---
+# User Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+spec:
+  selector:
+    name: user
+  ports:
+    - protocol: TCP
+      port: 80        # The port that the service will expose
+      targetPort: 8082 # The port on the pod that the service will route to
+  type: NodePort      # Change to LoadBalancer if needed
+---
+# Auth Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+spec:
+  selector:
+    name: auth
+  ports:
+    - protocol: TCP
+      port: 80        # The port that the service will expose
+      targetPort: 8083 # The port on the pod that the service will route to
+  type: NodePort      # Change to LoadBalancer if needed
