@@ -14,13 +14,13 @@ public class WelcomeController {
 
     @GetMapping("/signup") 
     public String signup() {
-        // Replace hardcoded IP with the Kubernetes service name for user-service
-        return "redirect:http://user-service:8082/users/signup";  // Redirect to user-service signup page
+        // Redirect to user-service signup page
+        return "redirect:http://user-service:80/users/signup";  
     }
 
     @GetMapping("/login")
     public String login() {
-        // Replace hardcoded IP with the Kubernetes service name for auth-service
-        return "redirect:http://auth-service:8083/auth/login";  // Redirect to auth-service login page
+        // Redirect to auth-service login page
+        return "redirect:http://auth-service:80/auth/login";  
     }
 }
