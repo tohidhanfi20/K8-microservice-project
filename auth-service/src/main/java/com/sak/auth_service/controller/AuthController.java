@@ -35,8 +35,7 @@ public class AuthController {
         // Validate user
         if (user != null && user.getPassword().equals(password)) {
             model.addAttribute("user", user); 
-            // Replace hardcoded IP with the Kubernetes service name
-            return "redirect:http://welcome-service:8081";  // Welcome service
+            return "redirect:http://welcome-service:80";  // Welcome service
         } else {
             model.addAttribute("error", "Invalid credentials!");  
             return "login";  
@@ -53,13 +52,11 @@ public class AuthController {
     public String signup(Model model) {
         model.addAttribute("user", new User());
         System.out.println("Signup Page from auth-service");
-        // Replace hardcoded IP with the Kubernetes service name
-        return "redirect:http://user-service:8082/users/signup";  // User service
+        return "redirect:http://user-service:80/users/signup";  // User service
     }
 
     @GetMapping("/")
     public String home() {
-        // Replace hardcoded IP with the Kubernetes service name
-        return "redirect:http://welcome-service:8081/";  // Welcome service
+        return "redirect:http://welcome-service:80/";  // Welcome service
     }
 }
