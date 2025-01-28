@@ -25,21 +25,25 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String signupUser(@ModelAttribute User user) {
-        userRepository.save(user);  // Save the user to the database
-        return "redirect:/users/signup";  // Redirect back to the signup page after saving
+    public String signupUser(@ModelAttribute User user, Model model) {
+        try {
+            userRepository.save(user);  // Save the user to the database
+            model.addAttribute("success", "User signed up successfully!"); // Success message
+            return "redirect:/users/login";  // Redirect to the login page after saving
+        } catch (Exception e) {
+            model.addAttribute("error", "Signup failed: " + e.getMessage()); // Error message
+            return "signup";  // Stay on the signup page if there's an error
+        }
     }
 
     @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("user", new User());
-        // Replace hardcoded IP with the Kubernetes service name for auth-service
-        return "redirect:http://auth-service:8083/auth/login";  // Redirect to auth-service login
+        return "redirect:http://auth-service:80/auth/login";  // Redirect to auth-service login
     }
 
     @GetMapping("/")
     public String home() {
-        // Replace hardcoded IP with the Kubernetes service name for welcome-service
-        return "redirect:http://welcome-service:8081";  // Redirect to welcome-service home page
+        return "redirect:http://welcome-service:80";  // Redirect to welcome-service home page
     }
 }
